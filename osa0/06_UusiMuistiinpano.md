@@ -9,7 +9,7 @@ sequenceDiagram
     server-->>browser: 201 created
     deactivate server
 
-    POST-komento lisää serverille kyseisen tietueen. JSON-koodi puolestaan lisää tietueen suoraan jo sivulle, jolloin erillistä sivun päivitystä ei tarvita.
+    Note right of browser: POST-komento lisää serverille kyseisen tietueen. JSON-koodi puolestaan lisää tietueen suoraan jo sivulle, jolloin erillistä sivun päivitystä ei tarvita.
     
 
 ```
