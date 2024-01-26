@@ -1,0 +1,16 @@
+Alustaminen:
+    - Backend:
+        npm inint
+
+    - Frontend:
+        npm create vite@latest <KANSIO> -- --template react
+        cd <KANSIO>
+        npm install
+
+Ajaminen:
+    - Kehitysversio:
+        npm run dev
+    - Virallinen versio:
+        npm start
+    - Tuotantoversion teko (Frontend):
+        npm run build

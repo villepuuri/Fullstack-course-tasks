@@ -1,0 +1,19 @@
+"cors": 
+    - npm install cors
+    - Voimme sallia muista origineista tulevat pyynnöt käyttämällä Noden cors-middlewarea.
+"dotenv": 
+    - npm install dotenv
+    - Mahdollistaa salaisten tietojen hakemisen .env tiedostosta tyyliin:
+    - process.env.PORT
+"express": 
+    - npm install express
+    - Kirjasto, joka auttaa Nodella tapahtuvaa web-sovellusten ohjelmarajapintojen koodausta
+"mongoose": 
+    - npm install mongoose
+    - Kirjasto, joka hoitaa kommunikointia Mongon tietokannan kanssa.
+
+"nodemon": 
+    - npm install --save-dev nodemon
+    - "dev": "nodemon index.js"
+    - Ajaa koodin ilman, että tarvitsee käynnistää sitä uudelleen
+

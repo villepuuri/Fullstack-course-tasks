@@ -144,12 +144,6 @@ const App = () => {
             }
           })
           .catch(error => {
-            console.log("Error catched!")
-            setErrorMessage(`Information of ${newPerson.name} has already been removed from server, updating the list`)
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 3500)
-
             // Update the persons from the server
             personServices
               .getAll()
@@ -160,6 +154,13 @@ const App = () => {
                 setNewName('')
                 setNewNumber('')
               })
+
+            const message = error.response.data.error
+            console.log("Error catched: ", message)
+            setErrorMessage(message)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3500)
           })
       }
 
@@ -188,6 +189,13 @@ const App = () => {
           }, 3500)
         }
         )
+        .catch(error => {
+          console.log('ERRORMessage: ', error.response.data)
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3500)
+        })
     }
   }
 
