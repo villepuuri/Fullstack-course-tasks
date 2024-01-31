@@ -124,6 +124,43 @@ describe('MongoDB tests', () => {
             .expect(400)
 
     })
+
+    test("Delete a note", async () => {
+        const response = await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const id = response.body[0].id
+
+        await api
+            .delete(`/api/blogs/${id}`)
+            .expect(204)
+
+        const newResponse = await api.get('/api/blogs')
+        expect(newResponse.body.length).toBe(initialBlogs.length - 1)
+
+    })
+
+    test("update a note", async () => {
+        const newLikes = 10101
+        const response = await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+        const id = response.body[0].id
+        const updatedBlog = { ...response.body[0], likes:newLikes }
+
+        await api
+            .put(`/api/blogs/${id}`)
+            .send(updatedBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const newResponse = await api.get('/api/blogs')
+
+        expect(newResponse.body.map(r => r.likes)).toContain(newLikes)
+    })
 })
 
 
