@@ -14,6 +14,7 @@ require('dotenv').config()
 mongoose.connect(config.MONGODB_URI)
     .then(() => {
         logger.info('Connected to MongoDB')
+        logger.info(config.MONGODB_URI)
     })
     .catch((error) => {
         logger.error('Error connection to MongoDB:', error.message)
