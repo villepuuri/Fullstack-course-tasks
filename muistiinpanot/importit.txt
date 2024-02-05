@@ -16,4 +16,7 @@
     - npm install --save-dev nodemon
     - "dev": "nodemon index.js"
     - Ajaa koodin ilman, että tarvitsee käynnistää sitä uudelleen
+"bsrypt":
+    - npm install bsrypt
+    - Salasanojen hashaaminen
 
