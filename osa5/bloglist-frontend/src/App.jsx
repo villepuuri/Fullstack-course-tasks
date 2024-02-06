@@ -73,7 +73,7 @@ const App = () => {
     catch (error) {
       console.log('Login failed: ', error)
       setErrorMessage(
-        `wrong username or password`
+        'wrong username or password'
       )
       setTimeout(() => {
         setErrorMessage(null)
@@ -197,12 +197,12 @@ const App = () => {
             addBlog={addBlog} />
         </Togglable>
 
-        {blogs.map(blog =>  <Blog
-            key={blog.id}
-            blog={blog}
-            updateLikes={updateLikes}
-            removeBlog={removeBlog}
-            idName={user.username} />
+        {blogs.map(blog => <Blog
+          key={blog.id}
+          blog={blog}
+          updateLikes={updateLikes}
+          removeBlog={removeBlog}
+          idName={user.username} />
         )}
       </div>
     )
