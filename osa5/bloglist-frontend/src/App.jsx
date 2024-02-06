@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
+import AddBlog from './components/AddBlog'
 
 const InfoNotification = ({ message }) => {
   if (message === null) {
@@ -48,11 +50,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
 
-    blogService.getAll().then(blogs => {
-      console.log('Blogs: ', blogs)
-      setBlogs(blogs)
-    }
-    )
+    refreshBlogs()
 
 
   }, [])
@@ -92,27 +90,73 @@ const App = () => {
     blogService.setToken(null)
   }
 
-  const handleCreateNewBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newURL
+  const addBlog = async (newBlog) => {
+    try {
+      console.log('Creating a new blog: ', newBlog)
+      const response = await blogService.addNewBlog(newBlog)
+
+      await refreshBlogs()
+
+      setInfoMessage(
+        `A new blog ${newTitle} by ${newAuthor} added`
+      )
+      setTimeout(() => {
+        setInfoMessage(null)
+      }, 3500)
     }
-    console.log('Creating a new blog: ', newBlog)
-    const response = await blogService.addNewBlog(newBlog)
-    await blogService.getAll().then(blogs => {
-      console.log('Blogs: ', blogs)
-      setBlogs(blogs)
+    catch (error) {
+      setErrorMessage(
+        `${error}`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3500)
     }
-    )
-    console.log('Blog created: ', response)
-    setInfoMessage(
-      `A new blog ${newTitle} by ${newAuthor} added`
-    )
-    setTimeout(() => {
-      setInfoMessage(null)
-    }, 3500)
+  }
+
+  const updateLikes = async (newBlog) => {
+    try {
+      console.log('Updating likes: ', newBlog)
+      const response = await blogService.updateLikes(newBlog)
+      await refreshBlogs()
+    }
+    catch (error) {
+      setErrorMessage(
+        `${error}`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3500)
+    }
+  }
+
+  const removeBlog = async (blogToRemove) => {
+    try {
+      const infoText = `A blog ${blogToRemove.title} by ${blogToRemove.author} removed`
+      const response = await blogService.removeBlog(blogToRemove)
+      refreshBlogs()
+      setInfoMessage(
+        infoText
+      )
+      setTimeout(() => {
+        setInfoMessage(null)
+      }, 3500)
+    }
+    catch (error) {
+      setErrorMessage(
+        `${error}`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3500)
+    }
+  }
+
+  const refreshBlogs = async () => {
+    // Update the bloglist:
+    const blogs = await blogService.getAll()
+    blogs.sort((a, b) => a.likes < b.likes ? 1 : -1)
+    setBlogs(blogs)
   }
 
   if (!user || !user.token) {
@@ -147,17 +191,18 @@ const App = () => {
           </button>
         </p>
 
-        <h2>create new</h2>
-        <form onSubmit={handleCreateNewBlog}>
-          <div>title:<input onChange={({ target }) => setNewTitle(target.value)} /></div>
-          <div>author:<input onChange={({ target }) => setNewAuthor(target.value)} /></div>
-          <div>url:<input onChange={({ target }) => setNewURL(target.value)} /></div>
-          <button type='submit'>create</button>
-        </form>
 
-        {blogs.map(blog => user.username === blog.user.username
-          ? <Blog key={blog.id} blog={blog} />
-          : null
+        <Togglable buttonLabel="Add a new blog">
+          <AddBlog
+            addBlog={addBlog} />
+        </Togglable>
+
+        {blogs.map(blog =>  <Blog
+            key={blog.id}
+            blog={blog}
+            updateLikes={updateLikes}
+            removeBlog={removeBlog}
+            idName={user.username} />
         )}
       </div>
     )
