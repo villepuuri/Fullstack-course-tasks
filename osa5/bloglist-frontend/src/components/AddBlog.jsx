@@ -20,26 +20,29 @@ const AddBlog = ({ addBlog }) => {
   const [newAuthor, setNewAuthor] = useState('')
   const [newURL, setNewURL] = useState('')
 
-  return <div>
+  return <div className='addBlog'>
     <h2>create new</h2>
     <form onSubmit={handleCreateNewBlog}>
       <div>
-                title:
+        title:
         <input
+          alt='input title'
           value={newTitle}
           onChange={({ target }) => setNewTitle(target.value)}
         />
       </div>
       <div>
-                author:
+        author:
         <input
+          alt='input author'
           value={newAuthor}
           onChange={({ target }) => setNewAuthor(target.value)}
         />
       </div>
       <div>
-                url:
+        url:
         <input
+          alt='input url'
           value={newURL}
           onChange={({ target }) => setNewURL(target.value)}
         />
