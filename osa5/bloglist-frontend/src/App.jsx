@@ -165,14 +165,14 @@ const App = () => {
         <h2>Log in to application</h2>
         <InfoNotification message={infoMessage} />
         <ErrorNotification message={errorMessage} />
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} id='logInForm'>
           <div>
-            username<input onChange={({ target }) => setUserName(target.value)} />
+            username<input id='username' onChange={({ target }) => setUserName(target.value)} />
           </div>
           <div>
-            password<input onChange={({ target }) => setPassword(target.value)} />
+            password<input id='password' onChange={({ target }) => setPassword(target.value)} />
           </div>
-          <button type='submit'>
+          <button type='submit' id='loginbutton'>
             login
           </button>
         </form>
